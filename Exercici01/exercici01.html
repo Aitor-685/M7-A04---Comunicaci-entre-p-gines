@@ -9,7 +9,8 @@
             let numero = document.getElementById("numero").value.trim();
             let missatge_error = document.getElementById("error");
 
-            if (numero === "" || isNaN(numero) || numero < 1 || numero > 10 || !Number.isInteger(Number(numero))) {
+            let num = Number(numero);
+            if (numero === "" || isNaN(num) || num < 1 || num > 10 || !Number.isInteger(num)) {
                 missatge_error.textContent = "Si us plau, introdueix un número enter entre 1 i 10.";
                 return false;
             }

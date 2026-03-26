@@ -12,16 +12,17 @@
     if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["numero"])) {
         $numero = trim($_GET["numero"]);
 
-        if (empty($numero) || !is_numeric($numero) || $numero < 1 || $numero > 10 || !is_int($numero + 0)) {
+        $numero_valid = filter_var($numero, FILTER_VALIDATE_INT, array("options" => array("min_range" => 1, "max_range" => 10)));
+
+        if ($numero_valid === false) {
             echo "<p style='color: red;'>Error: El número ha de ser un enter entre 1 i 10.</p>";
             echo "<a href='exercici01.html'>Torna enrere</a>";
         } else {
-            $numero = (int)$numero;
-            echo "<h3>Taula de multiplicar del $numero</h3>";
+            echo "<h3>Taula de multiplicar del $numero_valid</h3>";
             echo "<ul>";
             for ($i = 1; $i <= 10; $i++) {
-                $resultat = $numero * $i;
-                echo "<li>$numero x $i = $resultat</li>";
+                $resultat = $numero_valid * $i;
+                echo "<li>$numero_valid x $i = $resultat</li>";
             }
             echo "</ul>";
             echo "<a href='exercici01.html'>Torna enrere</a>";
