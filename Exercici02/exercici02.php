@@ -3,26 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultats de l'anàlisi</title>
+    <title>Dades Rebudes</title>
 </head>
 <body>
-    <h2>Resultats de l'anàlisi</h2>
+    <h2>Dades rebudes del formulari</h2>
 
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $text = trim($_POST["text"]);
-        $paraula = trim($_POST["paraula"]);
+        $nom = htmlspecialchars($_POST["nom"]);
+        $cognoms = htmlspecialchars($_POST["cognoms"]);
+        $genere = htmlspecialchars($_POST["genere"]);
+        $email = htmlspecialchars($_POST["email"]);
+        $edat = htmlspecialchars($_POST["edat"]);
+        $ciutat = htmlspecialchars($_POST["ciutat"]);
+        $motivacions = htmlspecialchars($_POST["motivacions"]);
 
-        if (empty($text) || empty($paraula)) {
-            echo "<p style='color: red;'> Error: Cal omplir tots els camps del formulari.</p>";
-            echo "<a href='exercici02.html'>Torna enrere</a>";
+        // Comprovem si s'han seleccionat aficions
+        if (!empty($_POST["aficions"])) {
+            $aficions = implode(", ", $_POST["aficions"]);
         } else {
-            $longitudText = strlen($text);
-            $comptadorParaula = substr_count(strtolower($text), strtolower($paraula));
-
-            echo "<p><strong>Longitud del text:</strong> $longitudText caràcters.</p>";
-            echo "<p><strong>La paraula '$paraula' apareix:</strong> $comptadorParaula vegada/es.</p>";
+            $aficions = "Cap afició seleccionada";
         }
+
+        // Agrupem totes les dades en una variable
+        $dadesUsuari = "
+            <strong>Nom:</strong> $nom<br>
+            <strong>Cognoms:</strong> $cognoms<br>
+            <strong>Gènere:</strong> $genere<br>
+            <strong>Correu electrònic:</strong> $email<br>
+            <strong>Edat:</strong> $edat<br>
+            <strong>Ciutat:</strong> $ciutat<br>
+            <strong>Aficions:</strong> $aficions<br>
+            <strong>Motivacions personals:</strong> $motivacions
+        ";
+
+        echo $dadesUsuari;
     } else {
         echo "<p>No s'han rebut dades.</p>";
     }

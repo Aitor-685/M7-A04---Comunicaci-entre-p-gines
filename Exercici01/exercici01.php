@@ -3,43 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dades Rebudes</title>
+    <title>Taula de multiplicar</title>
 </head>
 <body>
-    <h2>Dades rebudes del formulari</h2>
+    <h2>Taula de multiplicar</h2>
 
     <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nom = htmlspecialchars($_POST["nom"]);
-        $cognoms = htmlspecialchars($_POST["cognoms"]);
-        $genere = htmlspecialchars($_POST["genere"]);
-        $email = htmlspecialchars($_POST["email"]);
-        $edat = htmlspecialchars($_POST["edat"]);
-        $ciutat = htmlspecialchars($_POST["ciutat"]);
-        $motivacions = htmlspecialchars($_POST["motivacions"]);
+    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["numero"])) {
+        $numero = trim($_GET["numero"]);
 
-        // Comprovem si s'han seleccionat aficions
-        if (!empty($_POST["aficions"])) {
-            $aficions = implode(", ", $_POST["aficions"]);
+        if (empty($numero) || !is_numeric($numero) || $numero < 1 || $numero > 10 || !is_int($numero + 0)) {
+            echo "<p style='color: red;'>Error: El número ha de ser un enter entre 1 i 10.</p>";
+            echo "<a href='exercici01.html'>Torna enrere</a>";
         } else {
-            $aficions = "Cap afició seleccionada";
+            $numero = (int)$numero;
+            echo "<h3>Taula de multiplicar del $numero</h3>";
+            echo "<ul>";
+            for ($i = 1; $i <= 10; $i++) {
+                $resultat = $numero * $i;
+                echo "<li>$numero x $i = $resultat</li>";
+            }
+            echo "</ul>";
+            echo "<a href='exercici01.html'>Torna enrere</a>";
         }
-
-        // Agrupem totes les dades en una variable
-        $dadesUsuari = "
-            <strong>Nom:</strong> $nom<br>
-            <strong>Cognoms:</strong> $cognoms<br>
-            <strong>Gènere:</strong> $genere<br>
-            <strong>Correu electrònic:</strong> $email<br>
-            <strong>Edat:</strong> $edat<br>
-            <strong>Ciutat:</strong> $ciutat<br>
-            <strong>Aficions:</strong> $aficions<br>
-            <strong>Motivacions personals:</strong> $motivacions
-        ";
-
-        echo $dadesUsuari;
     } else {
-        echo "<p>No s'han rebut dades.</p>";
+        echo "<p>No s'ha rebut cap número.</p>";
+        echo "<a href='exercici01.html'>Torna enrere</a>";
     }
     ?>
 </body>
